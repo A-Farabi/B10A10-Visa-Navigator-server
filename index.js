@@ -61,6 +61,16 @@ async function run() {
       res.send(result)
     })
 
+    app.get('/appliedVisa', async (req, res) => {
+      try {
+        const cursor = appliedVisaCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching visas:", error);
+        res.status(500).send("Failed to fetch visas.");
+      }
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
