@@ -3,7 +3,7 @@ const cors = require('cors')
 require('dotenv').config();
 const app = express()
 const port = process.env.PORT || 5000
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mrtaf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // middleware
@@ -48,7 +48,12 @@ async function run() {
     });
 
 
-
+    app.get('/visa/:id', async (req, res) => {
+      const id = req.params.id;
+      const visa = await visaCollection.findOne({ _id: new ObjectId(id) });
+      res.send(visa);
+    });
+    
 
 
     // Send a ping to confirm a successful connection
