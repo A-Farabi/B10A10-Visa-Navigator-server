@@ -36,7 +36,16 @@ async function run() {
       res.send(result)
     })
 
-
+    app.get('/Visa', async (req, res) => {
+      try {
+        const cursor = visaCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching visas:", error);
+        res.status(500).send("Failed to fetch visas.");
+      }
+    });
 
 
 
