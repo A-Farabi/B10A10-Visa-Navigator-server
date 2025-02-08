@@ -29,6 +29,7 @@ async function run() {
     await client.connect();
 
     const visaCollection = client.db("visaDB").collection('visa')
+    const appliedVisaCollection = client.db("visaDB").collection('appliedVisa')
 
     app.post('/Visa', async (req, res)=>{
       const newAddingVisa = req.body
@@ -54,6 +55,11 @@ async function run() {
       res.send(visa);
     });
     
+    app.post('/appliedVisa', async (req, res)=>{
+      const newApplied = req.body
+      const result = await appliedVisaCollection.insertOne(newApplied)
+      res.send(result)
+    })
 
 
     // Send a ping to confirm a successful connection
