@@ -78,6 +78,41 @@ async function run() {
       const result = await appliedVisaCollection.deleteOne(query);
       res.send(result);
     });
+
+    app.get("/Visa", async (req, res) => {
+      const email = req.query.email;
+      if (!email) {
+        return res.status(400).send("Email query parameter is required.");
+      }
+      try {
+        const query = { email: email };
+        const visas = await visaCollection.find(query).toArray();
+        res.send(visas);
+      } catch (error) {
+        res.status(500).send("Failed to fetch visas.");
+      }
+    });
+
+    
+    app.delete("/Visa/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await visaCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    app.put("/Visa/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedVisa = req.body;
+      const query = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: updatedVisa,
+      };
+      const result = await visaCollection.updateOne(query, updateDoc);
+      res.send(result);
+    });
+    
+    
     
 
     // Send a ping to confirm a successful connection
